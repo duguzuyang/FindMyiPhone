@@ -1,4 +1,4 @@
-import datetime, requests, time, base64, urllib2, json
+import datetime, requests, time, base64, urllib2, json, getpass
 
 def FMIP(username, password):
     i = 0
@@ -59,5 +59,5 @@ def FMIP(username, password):
     return returnString
 
 username = raw_input("Apple ID: ")
-password = raw_input("Password: ")
+password = getpass.getpass("Password: ")
 print FMIP(username, password),
