@@ -1,6 +1,8 @@
 # FindMyiPhone
 Locates all devices associated with an iCloud account. No user notification, pretty, pure python, quick, fast, accurate. Works for any account, including 2SV/2FA.
 
+This program will also work with a FMIP token that is extracted from the FindMyiPhone App on the iPhone. 
+
 EXAMPLE:
 python FMIP.py
 
