@@ -2,6 +2,11 @@ import datetime, requests, time, base64, urllib2, json, getpass
 
 def FMIP(username, password):
     i = 0
+    try: #if we are given a FMIP token, change auth Type 
+        int(username)
+        authType = "Forever"
+    except ValueError: #else apple id use useridguest
+        authType = "UserIDGuest" 
     while True:
         i +=1
         dsid, server = (None, None)
@@ -10,7 +15,7 @@ def FMIP(username, password):
             'X-Apple-Realm-Support': '1.0',
             'Authorization': 'Basic %s' % base64.b64encode("%s:%s" % (username, password)),
             'X-Apple-Find-API-Ver': '3.0',
-            'X-Apple-AuthScheme': 'UserIDGuest',
+            'X-Apple-AuthScheme': '%s' % authType,
             'User-Agent': 'FindMyiPhone/500 CFNetwork/758.4.3 Darwin/15.5.0',
         }
         request = urllib2.Request(url, None, headers)
@@ -32,7 +37,7 @@ def FMIP(username, password):
             'X-Apple-Realm-Support': '1.0',
             'Authorization': 'Basic %s' % base64.b64encode("%s:%s" % (username, password)),
             'X-Apple-Find-API-Ver': '3.0',
-            'X-Apple-AuthScheme': 'UserIDGuest', #to get users
+            'X-Apple-AuthScheme': '%s' % authType, #to get users
             'User-Agent': 'FindMyiPhone/500 CFNetwork/758.4.3 Darwin/15.5.0',
         }
         request = urllib2.Request(url, None, headers)
