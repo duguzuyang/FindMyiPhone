@@ -4,27 +4,44 @@ def FMIP(username, password):
     i = 0
     while True:
         i +=1
-        url = 'https://p04-fmipmobile.icloud.com/fmipservice/device/%s/initClient' % username
+        dsid, server = (None, None)
+        url = 'https://fmipmobile.icloud.com/fmipservice/device/%s/initClient' % username
         headers = {
-            'Accept': '*/*', #we need this header for ulib2
+            'X-Apple-Realm-Support': '1.0',
             'Authorization': 'Basic %s' % base64.b64encode("%s:%s" % (username, password)),
-            'Content-Type': 'application/json; charset=utf-8',
             'X-Apple-Find-API-Ver': '3.0',
-            'X-Apple-AuthScheme': 'Forever',
+            'X-Apple-AuthScheme': 'UserIDGuest',
+            'User-Agent': 'FindMyiPhone/500 CFNetwork/758.4.3 Darwin/15.5.0',
+        }
+        request = urllib2.Request(url, None, headers)
+        request.get_method = lambda: "POST"
+
+        try:
+            response = urllib2.urlopen(request)
+        except urllib2.HTTPError as e:
+            if e.code == 401:
+                return "Auth Error"
+            elif e.code == 330:
+                dsid = e.fp.info().getheader('X-Apple-MMe-Scope')
+                server = e.fp.info().getheader('X-Apple-MMe-Host')
+            else:
+                raise HTTPError
+        #now lets use that dsid and host
+        url = 'https://%s/fmipservice/device/%s/initClient' % (server, dsid)
+        headers = {
+            'X-Apple-Realm-Support': '1.0',
+            'Authorization': 'Basic %s' % base64.b64encode("%s:%s" % (username, password)),
+            'X-Apple-Find-API-Ver': '3.0',
+            'X-Apple-AuthScheme': 'UserIDGuest', #to get users
             'User-Agent': 'FindMyiPhone/500 CFNetwork/758.4.3 Darwin/15.5.0',
         }
         request = urllib2.Request(url, None, headers)
         request.get_method = lambda: "POST"
         try:
             response = urllib2.urlopen(request)
+            z = json.loads(response.read())
         except urllib2.HTTPError as e:
-            if e.code != 200 or e.code != 401:
-                return "HTTP Error: %s" % e.code
-            if e.code == 401:
-                return "Auth Error"
-            else:
-                raise HTTPError
-        z = json.loads(response.read())
+            print e.code
         if i == 2: 
             break
         print "Sent \033[92mlocation\033[0m beacon to \033[91m[%s]\033[0m devices" % len(z["content"])
@@ -59,5 +76,5 @@ def FMIP(username, password):
     return returnString
 
 username = raw_input("Apple ID: ")
-password = getpass.getpass("Password: ")
+password = getpass.getpass()
 print FMIP(username, password),
