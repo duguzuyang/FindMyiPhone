@@ -1,5 +1,5 @@
 # FindMyiPhone
-Locates all devices associated with an iCloud account. No user notification, pure python, accepts FMIP tokens, quick, fast, accurate, bypasses 2SV/A with FMI token.
+Locates all devices associated with an iCloud account. No user notification, pretty, pure python, quick, fast, accurate. Works for any account, including 2SV/2FA.
 
 EXAMPLE:
 python FMIP.py
