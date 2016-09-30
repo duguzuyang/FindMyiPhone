@@ -1,25 +1,24 @@
 # FindMyiPhone
-Locates all devices associated with an iCloud account. No user notification, pretty, pure python, quick, fast, accurate. Works for any account, including 2SV/2FA.
+Locates all devices associated with an iCloud account. No user notification, pretty, pure python, quick, fast, accurate. Works for any account, including 2SV/2FA. This program will also work with a FMIP token that is extracted from the FindMyiPhone App on the iPhone. 
 
-This program will also work with a FMIP token that is extracted from the FindMyiPhone App on the iPhone. 
+# Usage 
 
-EXAMPLE:
-python FMIP.py
+***python FMIP.py***
 
+```
 INPUT: Apple ID 
 
 INPUT: Password
-
+```
+```
 OUTPUT:
 
 Sent location beacon to [3] devices
 
 Awaiting response from iCloud...
-
 (John Doe | 1234567[DSID]) -> Found 3 Devices
-
-___
-
+```
+```
 Device [1]
 
 Model: MacBook Pro 13"
@@ -31,8 +30,8 @@ Latitude, Longitude: <22.000000000;-22.000000000>
 Battery: 0.4126002 & NotCharging
 
 Located at: Monday, September 19 at 11:51:44 (0m 5s ago)
-
-____
+```
+```
 
 Device [2]
 
@@ -46,8 +45,8 @@ Battery: 1.0 & Charged
 
 Located at: Monday, September 19 at 11:51:45 (0m 4s ago)
 
-____
-
+```
+```
 Device [3]
 
 Model: MacBook Pro 15"
@@ -59,3 +58,4 @@ Latitude, Longitude: <22.000000000;-22.000000000>
 Battery: 0.6817946 & NotCharging
 
 Located at: Monday, September 19 at 11:51:44 (0m 5s ago)
+```
