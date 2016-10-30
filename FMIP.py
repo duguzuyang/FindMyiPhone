@@ -1,4 +1,4 @@
-import datetime, requests, time, base64, urllib2, json, getpass
+import datetime, requests, time, base64, urllib2, json, getpass, webbrowser
 
 def FMIP(username, password):
     i = 0
@@ -73,6 +73,10 @@ def FMIP(username, password):
             else:
                 timeStamp = "%s (%sm %ss ago)" % (timeStamp, str(minutes).split(".")[0], str(seconds).split(".")[0])
             returnString += "Latitude, Longitude: <%s;%s>\n" % (y["location"]["latitude"], y["location"]["longitude"])
+            if webbrowser.open("http://maps.google.com/maps?q=loc:%s,%s" % (y["location"]["latitude"], y["location"]["longitude"])):
+                returnString += "\033[94mOpening location in web browser!\033[0m\n"
+            else:
+                returnString += "\033[91mFailed to open location in web browser.\033[0m\n"
             returnString += "Battery: %s & %s\n" % (y["batteryLevel"], y["batteryStatus"])
             returnString += "\033[92mLocated at: %s\033[0m\n" % timeStamp
             returnString += "-------\n"
