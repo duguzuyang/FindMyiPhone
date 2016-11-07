@@ -1,4 +1,4 @@
-import datetime, requests, time, base64, urllib2, json, getpass, webbrowser
+import datetime, time, base64, urllib2, json, getpass, webbrowser
 
 def FMIP(username, password):
     i = 0
