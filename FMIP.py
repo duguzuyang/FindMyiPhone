@@ -140,12 +140,12 @@ for dev in device_dict:
     print "\033[94mDevice\033[0m [%s] - [\033[92m%s\033[0m]" % (dev, device_dict[dev][0])
 print '-------'
 
-print 'Which above device should you like to play a \033[93msound\033[0m for?\n\033[91mWARNING\033[0m, this will send the \033[94miCloud\033[0m user an \033[91memail\033[0m.'
+print 'Which above device would you like to play a \033[93msound\033[0m for?\n\033[91mWARNING\033[0m, this will send the \033[94miCloud\033[0m user an \033[91memail\033[0m.'
 dev_sound = input('Enter a device number [1-%s]: ' % len(device_dict))
 dev_msg = raw_input('Enter a message to be displayed: ')
 device_id = device_dict[dev_sound][1]
 if play_sound(device_id, token, dev_msg):
-    print 'Successfully played sound on [%s]' % device_dict[dev_sound][0]
+    print 'Successfully played a sound on [%s]' % device_dict[dev_sound][0]
 else:
     print 'Error playing sound on [%s]' % device_dict[dev_sound][0]
 

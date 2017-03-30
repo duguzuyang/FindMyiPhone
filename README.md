@@ -69,11 +69,11 @@ Device [1] - [John's MacBook Pro | MacBook Pro 13"]
 Device [2] - [John's iPhone | iPhone 5s]
 Device [3] - [John's MacBook Pro | MacBook Pro 15"]
 -------
-Which above device should you like to play a sound for?
+Which above device would you like to play a sound for?
 WARNING, this will send the iCloud user an email.
 
 Enter a device number [1-3]: 2
 Enter a message to be displayed: Greetings
 
-Successfully played sound on [John's iPhone | iPhone 5s]
+Successfully played a sound on [John's iPhone | iPhone 5s]
 ```
