@@ -70,7 +70,14 @@ def FMIP(username, password):
             'X-Apple-AuthScheme': '%s' % auth_type,
             'User-Agent': 'FindMyiPhone/500 CFNetwork/758.4.3 Darwin/15.5.0',
         }
-        request = urllib2.Request(url, None, headers)
+        data = {
+            'clientContext': {
+                'appVersion': '7.0', # Not adding this will cause http error 503
+                'fmly': 'true',
+            }
+        }
+        json_data = json.dumps(data)
+        request = urllib2.Request(url, json_data, headers)
         request.get_method = lambda: "POST"
         try:
             response = urllib2.urlopen(request)
