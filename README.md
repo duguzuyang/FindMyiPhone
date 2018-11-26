@@ -28,7 +28,7 @@ Model: MacBook Pro 13"
 Name: John's MacBook Pro
 
 Latitude, Longitude: <22.000000000;-22.000000000>
-Street Address: 123 Mill Road, NY, NY 10001, USA
+
 
 Battery: 88% & Charging
 
@@ -41,7 +41,7 @@ Model: iPhone 5s
 Name: John's iPhone
 
 Latitude, Longitude: <22.000000000;-22.000000000>
-Street Address: 123 Mill Road, NY, NY 10001, USA
+
 
 Battery: 88% & Charging
 
@@ -55,7 +55,7 @@ Model: MacBook Pro 15"
 Name: John's MacBook Pro
 
 Latitude, Longitude: <22.000000000;-22.000000000>
-Street Address: 123 Mill Road, NY, NY 10001, USA
+
 
 Battery: 88% & Charging
 
