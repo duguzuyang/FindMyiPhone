@@ -1,4 +1,4 @@
-import datetime, time, base64, urllib2, json, getpass
+import datetime, time, base64, urllib2, json, getpass, ssl
 
 def convert_coords(lat, longitude):
     url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s" % (lat, longitude)
@@ -45,7 +45,12 @@ def play_sound(dev_id, token, dev_msg='Find My Device alert'):
     request = urllib2.Request(url, json_data, headers)
     request.get_method = lambda: "POST"
 
-    response = urllib2.urlopen(request)
+    # No SSL check
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    response = urllib2.urlopen(request, context=ctx)
     response_content = response.read()
     if response_content:
         return True
@@ -80,7 +85,13 @@ def FMIP(username, password):
         request = urllib2.Request(url, json_data, headers)
         request.get_method = lambda: "POST"
         try:
-            response = urllib2.urlopen(request)
+            # No SSL check
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+
+            response = urllib2.urlopen(request, context=ctx)
+            #response = urllib2.urlopen(request)
             z = json.loads(response.read())
         except urllib2.HTTPError as e:
             if e.code == 401:
@@ -90,21 +101,21 @@ def FMIP(username, password):
             raise e
         if i == 2: #loop twice / send request twice
             break
-        print '\033[93mSuccessfully\033[0m authenticated'
-        print 'Sent \033[92mlocation\033[0m beacon to \033[91m[%s]\033[0m devices' % len(z["content"])
+        print 'Successfully authenticated'
+        print 'Sent location beacon to [%s] devices' % len(z["content"])
         print 'Awaiting response from iCloud...'
         #okay, FMD request has been sent, now lets wait a bit for iCloud to get results, and then do again, and then break
         time.sleep(5)
     return_string = ''
-    return_string += '\033[94m(%s %s | %s)\033[0m -> \033[92mFound %s Devices\033[0m\n-------\n' % (z["userInfo"]["firstName"], z["userInfo"]["lastName"], username, len(z["content"]))
+    return_string += '(%s %s | %s) -> Found %s Devices\n-------\n' % (z["userInfo"]["firstName"], z["userInfo"]["lastName"], username, len(z["content"]))
     i = 1
     device_dict = {}
     for y in z["content"]:
         try:
             return_string += "Device [%s]\n" % i
             i += 1
-            return_string += "\033[94mModel\033[0m: %s\n" % y["deviceDisplayName"]
-            return_string += "\033[94mName\033[0m: %s\n" % y["name"]
+            return_string += "Model: %s\n" % y["deviceDisplayName"]
+            return_string += "Name: %s\n" % y["name"]
             device_id = y["id"]
             device_dict[i - 1] = ['%s | %s' % (y["name"], y["deviceDisplayName"]) , y["id"]]
             time_stamp = y["location"]["timeStamp"] / 1000
@@ -117,13 +128,13 @@ def FMIP(username, password):
                 time_stamp = "%s (%sh %sm %ss ago)" % (time_stamp, str(hours).split(".")[0], str(minutes).split(".")[0], str(seconds).split(".")[0])
             else:
                 time_stamp = "%s (%sm %ss ago)" % (time_stamp, str(minutes).split(".")[0], str(seconds).split(".")[0])
-            return_string += "\033[91mLatitude, Longitude\033[0m: <%s;%s>\n" % (y["location"]["latitude"], y["location"]["longitude"])
-            return_string += "\033[91mStreet Address\033[0m: %s\n" % convert_coords(y["location"]["latitude"], y["location"]["longitude"])
-            return_string += "\033[93mBattery\033[0m: %s%% & %s\n" % (str(float(y["batteryLevel"]) * 100).split('.')[0], y["batteryStatus"])
-            return_string += "\033[92mLocated at: %s\033[0m\n" % time_stamp
+            return_string += "Latitude, Longitude: <%s;%s>\n" % (y["location"]["latitude"], y["location"]["longitude"])
+            #return_string += "Street Address: %s\n" % convert_coords(y["location"]["latitude"], y["location"]["longitude"])
+            return_string += "Battery: %s%% & %s\n" % (str(float(y["batteryLevel"]) * 100).split('.')[0], y["batteryStatus"])
+            return_string += "Located at: %s\n" % time_stamp
             return_string += "-------\n"
         except TypeError,e :
-            return_string += "\033[92mCould not get GPS lock!\033[0m\n-------\n"
+            return_string += "Could not get GPS lock!\n-------\n"
     return return_string, device_dict, base64.b64encode("%s:%s" % (username, password))
 
 username = raw_input('Apple ID: ')
@@ -144,10 +155,10 @@ if play_sound_ask.lower() != 'y':
 
 print '-------'
 for dev in device_dict:
-    print "\033[94mDevice\033[0m [%s] - [\033[92m%s\033[0m]" % (dev, device_dict[dev][0])
+    print "Device [%s] - [%s]" % (dev, device_dict[dev][0])
 print '-------'
 
-print 'Which above device would you like to play a \033[93msound\033[0m for?\n\033[91mWARNING\033[0m, this will send the \033[94miCloud\033[0m user an \033[91memail\033[0m.'
+print 'Which above device would you like to play a sound for?\nWARNING, this will send the iCloud user an email.'
 dev_sound = input('Enter a device number [1-%s]: ' % len(device_dict))
 dev_msg = raw_input('Enter a message to be displayed: ')
 device_id = device_dict[dev_sound][1]
