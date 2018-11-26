@@ -1,5 +1,5 @@
 # FindMyiPhone
-Find all Apple devices including iPhone, iPad and Macs associated with an iCloud account. No user notification (unless you want to play sound), pretty, pure python, quick, fast, accurate. Works for any account, including ones with 2SV/2FA, all you need is email and passwd. Also works for family sharing devices. This program will also work with a FMIP token that is extracted from the FindMyiPhone App on the iPhone, and can also play a sound on the located device(s).
+"Find my iPhone" in python. Locate all Apple devices including iPhone, iPad and Macs associated with an iCloud account. No user notification (unless you want to play sound), pretty, pure python, quick, fast, accurate. Works for any account, including ones with 2SV/2FA, all you need is email and passwd. Also works for family sharing devices. This program will also work with a FMIP token that is extracted from the FindMyiPhone App on the iPhone, and can also play a sound on the located device(s).
 
 # Usage 
 
